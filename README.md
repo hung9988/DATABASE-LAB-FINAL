@@ -23,7 +23,7 @@ Follow these steps to install the application:
 3. Navigate into the project directory:
    ```bash
    cd DATABASE-LAB-FINAL
-5. Install the dependencies:
+6. Install the dependencies:
    ```bash
    npm install
 
@@ -31,8 +31,11 @@ Follow these steps to install the application:
 ## Usage
 
 To run the application:
-
-1. Start the development server:
+1. Navigate to Admin/User application:
+   ```bash
+   cd Admin_application
+   cd User_application
+2. Start the development server:
    ```bash
    npm run dev
    
