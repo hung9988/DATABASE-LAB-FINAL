@@ -6,8 +6,17 @@ This is a simple web application aimed to simulate a simple course registration 
 
 * A student can sign up for an account to register for classes when they are opened.
 * Teacher will already have the account when they enter the school and can login to create or delete their own classes.
-  
-## Requirements
+
+
+## Database Requirements
+* There must be a login role with name users and password users beforehand:
+  ```bash
+  CREATE ROLE users LOGIN PASSWORD 'users';
+* If the superuser is not postgres:0000, you should change the DB_URL_ADMIN string in the .env file in Admin_application accordingly to your superuser account.
+* Restore the demo database with this command:
+  ```bash
+  psql -U postgres -f HUST-STUDENT-MANAGER.sql
+## Application Requirements
 
 * Node.js - v14.0.0 or above
 * npm - v6.0.0 or above
