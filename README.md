@@ -4,7 +4,7 @@ This is a simple web application aimed to simulate a simple course registration 
 
 ## Features
 
-* A student can sign up for a account to register for classes when they are opened.
+* A student can sign up for an account to register for classes when they are opened.
 * Teacher will already have the account when they enter the school and can login to create or delete their own classes.
   
 ## Requirements
@@ -23,4 +23,12 @@ Follow these steps to install the application:
    cd DATABASE-LAB-FINAL
 5. Install the dependencies:
    npm install
+
+
+## Usage
+
+To run the application:
+
+1. Start the development server:
+   npm run dev
    
