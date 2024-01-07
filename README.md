@@ -19,11 +19,15 @@ Follow these steps to install the application:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/hung9988/DATABASE-LAB-FINAL
+   git clone https://github.com/hung9988/HUST-STUDENT-MANAGER
 3. Navigate into the project directory:
    ```bash
-   cd DATABASE-LAB-FINAL
-5. Install the dependencies:
+   cd HUST-STUDENT-MANAGER
+4. Navigate into each application ( User and Admin ):
+   ```bash
+   cd Admin_application
+   cd User_application
+6. Install the dependencies for each folders:
    ```bash
    npm install
 
@@ -31,8 +35,11 @@ Follow these steps to install the application:
 ## Usage
 
 To run the application:
-
-1. Start the development server:
+1. Navigate to Admin/User application:
+   ```bash
+   cd Admin_application
+   cd User_application
+2. Start the development server:
    ```bash
    npm run dev
    
