@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   body.query = "%" + body.query + "%";
-  console.log(body.query);
+
   const subjects = await db.execute(
     sql.raw(
       `select users.*,enterprise_name,contact from enterprises join users on user_id=enterprise_id where verified=false and (enterprise_id::varchar ILIKE '${

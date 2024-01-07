@@ -43,7 +43,7 @@
             square
             variant="ghost"
             @click="
-              navigateTo('/login');
+              navigateTo('/');
               showModal = false;
             "
             ><div class="text-xl font-bold">Login</div>
@@ -83,7 +83,7 @@ const role = useCookie("role");
 const showModal = ref(false);
 
 const Links = ref([
-  { label: "Dashboard", to: "/" },
+  { label: "Dashboard", to: "/Dashboard" },
 
   { label: "Verify Enterprises", to: "/EnterpriseVerification" },
 ]);
@@ -97,6 +97,6 @@ async function logOut() {
   role.value = "";
   session.value = "";
   showModal.value = false;
-  navigateTo("/login");
+  navigateTo("/");
 }
 </script>
