@@ -23,7 +23,11 @@ Follow these steps to install the application:
 3. Navigate into the project directory:
    ```bash
    cd HUST-STUDENT-MANAGER
-6. Install the dependencies:
+4. Navigate into each application ( User and Admin ):
+   ```bash
+   cd Admin_application
+   cd User_application
+6. Install the dependencies for each folders:
    ```bash
    npm install
 
