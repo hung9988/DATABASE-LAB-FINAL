@@ -132,7 +132,7 @@ async function submit() {
     method: "POST",
     body: JSON.stringify(state.value),
   });
-  if (data) {
+  if (data.value) {
     navigateTo("/login");
   }
 }
