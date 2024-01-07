@@ -19,7 +19,7 @@ Follow these steps to install the application:
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/hung9988/DATABASE-LAB-FINAL](https://github.com/hung9988/DATABASE-LAB-FINAL)
+   git clone https://github.com/hung9988/DATABASE-LAB-FINAL
 3. Navigate into the project directory:
    ```bash
    cd DATABASE-LAB-FINAL
