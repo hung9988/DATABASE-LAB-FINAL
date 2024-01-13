@@ -82,11 +82,7 @@ const session = useCookie("session");
 const role = useCookie("role");
 const showModal = ref(false);
 
-const Links = ref([
-  { label: "Dashboard", to: "/Dashboard" },
-
-  { label: "Verify Enterprises", to: "/EnterpriseVerification" },
-]);
+const Links = ref([{ label: "Dashboard", to: "/Dashboard" }]);
 
 async function logOut() {
   const { data } = await useFetch("/api/Auth/logout", {

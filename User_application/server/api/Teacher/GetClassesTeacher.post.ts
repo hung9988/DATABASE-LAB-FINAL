@@ -10,9 +10,9 @@ export default defineEventHandler(async (event) => {
   const classes = await db.execute(
     sql.raw(
       `
-        select * from classes c join classes_time_location ct on c.class_id=ct.class_id where teacher_id=current_setting('myapp.user_id')::integer AND
+        select * from classes where teacher_id=current_setting('myapp.user_id')::integer AND
         (subject_id ILIKE ${body.query}
-        OR c.class_id::varchar ILIKE ${body.query}) OFFSET ${
+        OR class_id::varchar ILIKE ${body.query}) OFFSET ${
           (body.page - 1) * body.pageCount
         }
       LIMIT

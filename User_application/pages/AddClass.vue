@@ -37,7 +37,7 @@ const columns = [
 
   {
     key: "weight",
-    label: "Trọng số",
+    label: "Weight",
 
     sortable: true,
   },

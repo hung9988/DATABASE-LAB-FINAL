@@ -113,7 +113,7 @@ async function handle_unregister() {
             :ui="{ font: 'font-bold' }"
             class="mr-10 flex w-1/3 items-center justify-center"
             @click="handle_unregister"
-            >Unregister</UButton
+            >Delete</UButton
           >
         </div>
       </div>

@@ -1,10 +1,9 @@
 import { db_admin as db } from "../../../drizzle/db";
-import "../../../drizzle/schema";
 import { sql } from "drizzle-orm";
 
 export default defineEventHandler(async (event) => {
   try {
-    const res = await db.execute(sql.raw(`SELECT * FROM current_period;`));
+    const res = await db.execute(sql.raw(`CALL pre_registration();`));
     return { res };
   } catch (err) {
     const error = err as Error;

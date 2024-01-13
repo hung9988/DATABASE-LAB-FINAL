@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
   const res = await db.execute(
     sql.raw(
-      `delete from enrollments where student_id = ${body.user_id} AND class_id IN (${value_class_id})  RETURNING *`,
+      `delete from enrollments where student_id = current_setting('myapp.user_id')::integer AND class_id IN (${value_class_id})  RETURNING *`,
     ),
   );
 

@@ -53,8 +53,9 @@ const { data: classes, refresh } = await useFetch(
   {
     method: "POST",
     body: {
-      user_id: user_id,
-      semester: 20232,
+      query: debounced,
+      page: page,
+      pageCount: pageCount,
     },
   },
 );

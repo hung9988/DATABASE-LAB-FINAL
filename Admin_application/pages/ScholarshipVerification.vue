@@ -7,28 +7,28 @@ const query = ref("");
 const debounced = refDebounced(query, 150);
 const columns = [
   {
-    key: "user_id",
+    key: "scholarship_id",
     label: "ID",
   },
   {
     key: "enterprise_name",
-    label: "Name",
+    label: "Enterpise Name",
   },
 
   {
-    key: "contact",
+    key: "amount",
 
-    label: "Contact",
+    label: "Amount",
   },
 
   {
-    key: "email",
-    label: "Email",
+    key: "scholarship_description",
+    label: "description",
   },
 ];
 
-const { data: subjects, refresh } = await useFetch(
-  "/api/Admin/GetEnterprises",
+const { data: scholarships, refresh } = await useFetch(
+  "/api/Admin/GetScholarships",
   {
     method: "POST",
     body: {
@@ -42,7 +42,7 @@ const { data: subjects, refresh } = await useFetch(
 const selected = ref([]);
 function select(row) {
   const index = selected.value.findIndex(
-    (item) => item.user_id === row.user_id,
+    (item) => item.scholarship_id === row.scholarship_id,
   );
   if (index === -1) {
     selected.value.push(row);
@@ -53,9 +53,9 @@ function select(row) {
 }
 
 async function handle_verify() {
-  selected.value = selected.value.map((item) => item.user_id);
+  selected.value = selected.value.map((item) => item.scholarship_id);
   console.log(selected.value);
-  await useFetch("/api/Admin/VerifyEnterprises", {
+  await useFetch("/api/Admin/VerifyScholarships", {
     method: "POST",
     body: {
       data: selected,
@@ -69,7 +69,7 @@ async function handle_verify() {
   <div class="min-h-screen bg-background-900">
     <div class="space-y-10 py-[10vh]">
       <div class="flex justify-center">
-        <div class="mb-10 text-4xl font-semibold">Enterprise Verification</div>
+        <div class="mb-10 text-4xl font-semibold">Scholarship Verification</div>
       </div>
       <div class="">
         <div class="flex items-center justify-center">
@@ -86,17 +86,17 @@ async function handle_verify() {
         v-model="selected"
         class="mx-10"
         :columns="columns"
-        :rows="subjects.subjects"
+        :rows="scholarships.res"
         @select="select"
       />
       <div class="grid grid-cols-2">
         <div class="col-span-1">
           <UPagination
             class="grid-col mx-10"
-            v-if="subjects.totalrows"
+            v-if="scholarships.totalrows"
             v-model="page"
             :page-count="pageCount"
-            :total="subjects.totalrows[0].count"
+            :total="Number(scholarships.totalrows[0].count)"
           />
         </div>
         <div class="col-span-1 flex justify-end">

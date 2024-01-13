@@ -14,7 +14,7 @@
       </UFormGroup>
     </div>
     <div class="mt-16 flex justify-center text-2xl font-bold text-white">
-      Current Progress
+      Current Period
     </div>
     <UTabs
       @change="onChange"
@@ -26,11 +26,12 @@
       }"
       class="mx-64 pt-10"
       :items="items"
-      :default-index="state ? 0 : 1"
+      :default-index="current_index"
     />
 
     <div class="mt-16 flex justify-center">
       <UButton
+        :loading="pending"
         @click="process_save()"
         :ui="{ font: 'font-bold' }"
         class="py flex justify-center px-10"
@@ -41,48 +42,78 @@
 </template>
 
 <script setup>
+import { getParsedCommandLineOfConfigFile } from "typescript";
 import { ref } from "vue";
 const items = [
   {
-    label: "Before semester start",
+    label: "Pre-registration",
   },
   {
-    label: "During semester",
+    label: "Open registration",
   },
   {
-    label: "Semester end",
+    label: "Close registration",
+  },
+  {
+    label: "Start semester",
+  },
+  {
+    label: "End semester",
   },
 ];
 const semester = ref("");
 const { data } = await useFetch("/api/Admin/GetPeriodStatus", {
   method: "GET",
 });
-const is_open = ref(data.value.res[0].is_open);
+const period = ref(data.value.res[0].current_period);
+const current_index = ref();
+if (period.value == "pre_registration") {
+  current_index.value = 0;
+} else if (period.value == "open_registration") {
+  current_index.value = 1;
+} else if (period.value == "close_registration") {
+  current_index.value = 2;
+} else if (period.value == "start_semester") {
+  current_index.value = 3;
+} else if (period.value == "end_semester") {
+  current_index.value = 4;
+}
 
 async function onChange(index) {
   current_index.value = index;
-  console.log(current_index.value);
 }
-const state = ref(data.value.res[0].is_open);
-const current_index = ref(state ? 0 : 1);
-
+const pending = ref(false);
 async function process_save() {
-  await useFetch("/api/Admin/SetSemester", {
-    method: "POST",
-    body: { semester: semester.value },
-  });
-  if (current_index.value == 0) {
-    await useFetch("/api/Admin/RegisterPeriodStart", {
+  pending.value = true;
+  try {
+    await useFetch("/api/Admin/SetSemester", {
       method: "POST",
+      body: { semester: semester.value },
     });
-  } else if (current_index.value == 1) {
-    await useFetch("/api/Admin/RegisterPeriodEnd", {
-      method: "POST",
-    });
-  } else if (current_index.value == 2) {
-    await useFetch("/api/Admin/SemesterEnd", {
-      method: "POST",
-    });
+    if (current_index.value == 0) {
+      await useFetch("/api/Admin/PreRegistration", {
+        method: "POST",
+      });
+    } else if (current_index.value == 1) {
+      await useFetch("/api/Admin/OpenRegistration", {
+        method: "POST",
+      });
+    } else if (current_index.value == 2) {
+      await useFetch("/api/Admin/CloseRegistration", {
+        method: "POST",
+      });
+    } else if (current_index.value == 3) {
+      await useFetch("/api/Admin/StartSemester", {
+        method: "POST",
+      });
+    } else if (current_index.value == 4) {
+      await useFetch("/api/Admin/EndSemester", {
+        method: "POST",
+      });
+    }
+  } catch (err) {
+  } finally {
+    pending.value = false;
   }
 }
 </script>

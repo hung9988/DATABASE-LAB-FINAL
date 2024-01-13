@@ -5,20 +5,31 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const session = getCookie(event, "session");
   await db.execute(sql.raw(`CALL set_user_id_and_role('${session}');`));
-  body.query = "'%" + body.query + "%'";
-  console.log(body.query);
+  body.query = "%" + body.query + "%";
+  await db.execute(
+    sql.raw(
+      `SELECT set_config('myapp.current_semester', get_current_semester(), false);`,
+    ),
+  );
   const classes = await db.execute(
     sql.raw(
-      `
-        select cf.*,t.last_name,t.first_name from classes_full cf join users t on cf.teacher_id=t.user_id
+      `select * from classes join users
+      on classes.teacher_id = users.user_id
       where
-        is_open = true AND (subject_id IN (select subject_id from subjects_programs where program_id IN (select program_id from students where student_id=${
-          body.user_id
-        })) AND
-        (subject_id ILIKE ${body.query}
-        OR class_id::varchar ILIKE ${body.query})) OFFSET ${
-          (body.page - 1) * body.pageCount
-        }
+        subject_id in (select subject_id
+        from
+          subjects_programs
+        where
+          program_id = (
+            select program_id from students WHERE
+            student_id =current_setting('myapp.user_id')::integer LIMIT 1
+          )
+        )
+        AND semester = current_setting('myapp.current_semester')
+        AND is_open='true'
+        AND (class_id::varchar ILIKE '${body.query}'
+        OR subject_id ILIKE '${body.query}')
+         OFFSET ${(body.page - 1) * body.pageCount}
       LIMIT
         ${body.pageCount}`,
     ),
@@ -27,10 +38,21 @@ export default defineEventHandler(async (event) => {
     element.full_name = element.last_name + " " + element.first_name;
     element.enrolled = element.enrolled_count + "/" + element.capacity;
   });
+
   // WORK IN PROGRESS
   const totalrows = await db.execute(
-    sql.raw(`select count(*) from classes_full where
-  is_open = true AND (subject_id IN (select subject_id from subjects_programs where program_id IN (select program_id from students where student_id=${body.user_id})));`),
+    sql.raw(`select count(*) from classes join users
+    on classes.teacher_id= users.user_id
+    where  is_open='true' AND semester = current_setting('myapp.current_semester') AND
+      subject_id in (select subject_id
+      from
+        subjects_programs
+      where
+        program_id = (
+          select program_id from students WHERE
+          student_id =current_setting('myapp.user_id')::integer LIMIT 1
+        )
+      )`),
   );
   return { classes, totalrows };
 });

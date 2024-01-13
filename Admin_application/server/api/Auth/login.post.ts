@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
     return { error: "Invalid credentials" };
   }
   //if (bcrypt.compareSync(body.password, String(user[0].encrypted_password)))
-  if (body.password === user[0].encrypted_password) {
-    delete user[0].encrypted_password;
+  if (body.password === user[0].password) {
+    delete user[0].password;
     let user_role = user[0].role + "s";
     let user_role_id = user[0].role + "_id";
 

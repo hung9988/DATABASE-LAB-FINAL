@@ -42,10 +42,8 @@
             color="gray"
             square
             variant="ghost"
-            @click="
-              navigateTo('/login');
-              showModal = false;
-            "
+            @click="showModal = false"
+            to="/login"
             ><div class="text-xl font-bold">Login</div>
           </UButton>
         </div>
@@ -54,10 +52,8 @@
             color="gray"
             square
             variant="ghost"
-            @click="
-              navigateTo('/signup');
-              showModal = false;
-            "
+            @click="showModal = false"
+            to="/signup"
             ><div class="text-xl font-bold">Sign Up</div>
           </UButton>
         </div>

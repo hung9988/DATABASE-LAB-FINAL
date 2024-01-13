@@ -1,5 +1,4 @@
 <script setup>
-import { useStorage } from "@vueuse/core";
 import { refDebounced } from "@vueuse/core";
 const page = ref(1);
 const pageCount = ref(8);
@@ -17,7 +16,7 @@ const columns = [
   },
 
   {
-    key: "last_name",
+    key: "full_name",
 
     label: "Teacher",
   },
@@ -60,7 +59,6 @@ const user_id = useCookie("user_id");
 const { data: classes, refresh } = await useFetch("/api/GetClasses", {
   method: "POST",
   body: {
-    user_id: user_id,
     query: debounced,
     page: page,
     pageCount: pageCount,
@@ -86,7 +84,7 @@ async function handle_verify() {
   <div class="min-h-screen bg-background-900">
     <div class="space-y-10">
       <div class="flex justify-center">
-        <div class="mb-10 text-4xl font-semibold">Register Classes</div>
+        <div class="mb-10 mt-10 text-4xl font-semibold">Register Classes</div>
       </div>
       <div class="">
         <div class="flex items-center justify-center">
